@@ -1,0 +1,30 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Sell Book",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/khai2001az/sellbook.git"
+  },
+  "author": "khai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khai2001az/sellbook/issues"
+  },
+  "homepage": "https://github.com/khai2001az/sellbook#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3",
+    "express-session": "^1.17.2",
+    "hbs": "^4.2.0",
+    "mongodb": "^4.4.1",
+    "mongoose": "^6.2.8",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
