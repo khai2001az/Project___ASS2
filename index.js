@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require('express-session')
+const path = require('path')
 const { engine } = require ('express-handlebars');
 const { insertBook, getDB, updateProduct, deleteProduct, getProductById } = require('./dbHandler')
 const app = express();
@@ -9,7 +10,6 @@ app.set('view engine', 'hbs')// khai báo sử dụng HBS để hiểu res, rend
 app.set('views', './views')
 app.use(express.urlencoded({ extended: true }))// lấy giữ liệu nhập từ các form
 app.use(express.static('public'))
-
 app.use(session({ secret: '124447yd@@$%%#', cookie: { maxAge: 60000 }, saveUninitialized: false, resave: false }))
 
 
