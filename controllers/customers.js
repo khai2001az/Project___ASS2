@@ -2,8 +2,56 @@ const express = require('express')
 
 
 
-const { insertUser, checkUserRole, insertBook, getDB } = require('../dbHandler')
+const { insertUser, checkUserRole, insertBook, getDB, deleteProduct,getProductById, updateProduct } = require('../dbHandler')
 const router = express.Router()
+router.get('/admin', async(req, res) => {
+    const dbo = await getDB();
+    const allProducts = await dbo.collection("books").find({}).toArray();
+    res.render('admin', { data: allProducts })
+})
+
+router.get('/insert',(req,res)=>{
+    res.render('insert')
+})
+router.post('/insert', async (req,res)=>{
+    const nameInput = req.body.txtNamebook;
+    const desInput = req.body.txtDes;
+    const priceInput = req.body.txtPrice;   
+    const imgURLInput = req.body.imgURL;
+    const newProduct = {
+        name:nameInput,
+        description:desInput,
+        price:priceInput,
+        imgURL:imgURLInput, 
+        size : {dai:20, rong:40}
+    }
+
+    
+    await insertBook("books", newProduct);
+    res.redirect('admin')
+})
+
+router.get('/edit', async(req, res) => {
+    const id = req.query.id;
+
+    const s = await getProductById(id);
+    res.render("edit", { books: s });
+})
+router.post('/edit', async(req, res) => {
+    const nameInput = req.body.txtNamebook;
+    const desInput = req.body.txtDes
+    const priceInput = req.body.txtPrice;
+    const pictureInput = req.body.txtimgURL;
+    const id = req.body.txtId;
+
+    await updateProduct(id, nameInput, desInput, priceInput, pictureInput );
+    res.redirect("admin");
+})
+router.get('/delete', async(req, res) => {
+    const id = req.query.id;
+    await deleteProduct(id);
+    res.redirect("admin");
+})
 
 //neu request la: /admin
 router.get('/register',(req,res)=>{
@@ -51,27 +99,27 @@ router.post('/login',async (req,res) =>{
     }
 
 })
-
-router.get('/insert',(req,res)=>{
-    res.render('insert')
+router.get('/sorthightolow',(req,res)=>{
+    res.render('logined')
 })
-router.post('/insert', async (req,res)=>{
-    const nameInput = req.body.txtNamebook;
-    const desInput = req.bode.txtDes;
-    const priceInput = req.body.txtPrice;   
-    const imgURLInput = req.body.imgURL;
-    const newProduct = {
-        name:nameInput,
-        description:desInput,
-        price:priceInput,
-        imgURL:imgURLInput, 
-        size : {dai:20, rong:40}
-    }
+router.post('/sorthightolow', async (req, res) => {   
+    const dbo = await getDB();
+    const allProducts = await dbo.collection("books").find({}).sort({ price : -1 }).toArray();
+    res.render('logined', {data : allProducts})
 
-    
-    await insertBook("books", newProduct);
-    res.redirect('admin')
+});
+router.get('/sortlowtohigh',(req,res)=>{
+    res.render('logined')
 })
+router.post('/sortlowtohigh', async (req, res) => {   
+    const dbo = await getDB();
+    const allProducts = await dbo.collection("books").find({}).sort({ price : 1 }).toArray();
+    res.render('logined', {data: allProducts})
+
+});
+
+
+
 
 router.get('/admin', async(req, res) => {
     const dbo = await getDB();

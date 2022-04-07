@@ -27,10 +27,10 @@
         </div>
     </nav>
     <div class="container">
-        <form action="/sorthightolow" method="post">
+        <form action="/customers/sorthightolow" method="post">
             <button type="submit" value="hightolow">high to low</button>
         </form>
-        <form action="/sortlowtohigh" method="post">
+        <form action="/customers/sortlowtohigh" method="post">
             <button type="submit" value="lowtohigh">low to high</button>
         </form>
         <div class="mt-4">
@@ -46,7 +46,7 @@
                             <a href="#" class="btn btn-primary">{{price}}
 
                             </a>
-                            <form action="/addTocart" method="post" onsubmit="return confirmBuy('coffee')">
+                            <form action="/customers/addTocart" method="post" onsubmit="return confirmBuy('coffee')">
                                 <input type="hidden" name="product" value='{{name}}'>
                                 <button type="submit" class="btn btn-primary button" id="button"
                                     data-modal-target="#modal">
@@ -60,16 +60,6 @@
         </div>
     </div>
 
-    <div class="bg-modal">
-        <div class="modal-contents">
-
-            <div class="close">+</div>
-
-            {{#each data}}
-            Ban Da mua {{tensp}} - {{soLuong}}
-            {{/each}}
-        </div>
-    </div>
 
 
 
