@@ -17,7 +17,7 @@
     <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Admin Page</a>
-            <a class="nav-link active" href="/customers/insert">New Product</a>
+            <a class="nav-link active" href="/admin/insert">New Product</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -46,8 +46,8 @@
                 <td>{{price}}</td>
                 <td><img src="{{imgURL}}" width="150px" height="100px"></td>
                 <td>{{description}}</td>
-                <td><a href="/customers/edit?id={{_id}}">Edit</a></td>
-                <td><a href="/customers/delete?id={{_id}}" onclick="return confirm('Are you sure')">Delete</a></td>
+                <td><a href="/admin/edit?id={{_id}}">Edit</a></td>
+                <td><a href="/admin/delete?id={{_id}}" onclick="return confirm('Are you sure')">Delete</a></td>
             </tr>
             {{/each}}
         </tbody>

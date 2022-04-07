@@ -4,53 +4,27 @@ const express = require('express')
 
 const { insertUser, checkUserRole, insertBook, getDB, deleteProduct,getProductById, updateProduct } = require('../dbHandler')
 const router = express.Router()
-router.get('/admin', async(req, res) => {
-    const dbo = await getDB();
-    const allProducts = await dbo.collection("books").find({}).toArray();
-    res.render('admin', { data: allProducts })
+
+router.post('/search', async (req, res) => {
+    const searchInput = req.body.txtSearch;
+    const dbo = await getDB()
+    const allProducts = await dbo.collection("books").find({ name: searchInput }).toArray();
+
+    res.render('logined', { data: allProducts })
 })
 
-router.get('/insert',(req,res)=>{
-    res.render('insert')
-})
-router.post('/insert', async (req,res)=>{
-    const nameInput = req.body.txtNamebook;
-    const desInput = req.body.txtDes;
-    const priceInput = req.body.txtPrice;   
-    const imgURLInput = req.body.imgURL;
-    const newProduct = {
-        name:nameInput,
-        description:desInput,
-        price:priceInput,
-        imgURL:imgURLInput, 
-        size : {dai:20, rong:40}
+router.get('/viewCart', (req, res) => {
+    const cart = req.session["cart"]
+    //Mot array chua cac san pham trong gio hang
+    let spDaMua = []
+    //neu khach hang da mua it nhat 1 sp
+    if (cart) {
+        const dict = req.session["cart"]
+        for (var key in dict) {
+            spDaMua.push({ tensp: key, soLuong: dict[key] })
+        }
     }
-
-    
-    await insertBook("books", newProduct);
-    res.redirect('admin')
-})
-
-router.get('/edit', async(req, res) => {
-    const id = req.query.id;
-
-    const s = await getProductById(id);
-    res.render("edit", { books: s });
-})
-router.post('/edit', async(req, res) => {
-    const nameInput = req.body.txtNamebook;
-    const desInput = req.body.txtDes
-    const priceInput = req.body.txtPrice;
-    const pictureInput = req.body.txtimgURL;
-    const id = req.body.txtId;
-
-    await updateProduct(id, nameInput, desInput, priceInput, pictureInput );
-    res.redirect("admin");
-})
-router.get('/delete', async(req, res) => {
-    const id = req.query.id;
-    await deleteProduct(id);
-    res.redirect("admin");
+    res.render('mycart', { data: spDaMua })
 })
 
 //neu request la: /admin
@@ -72,33 +46,8 @@ router.post('/register', (req,res)=>{
     
 })
 
-router.get('/login', (req,res)=>{
-    res.render('login')
-})
 
-//check thông tin login
-router.post('/login',async (req,res) =>{
-    const name = req.body.txtName
-    const pass= req.body.txtPass
-    const role = await checkUserRole(name, pass)
-    if (role == "-1"){
-        res.render('login')
-        return
-        
-    }else if(role == "admin"){
-        res.redirect('admin')
-        return
-    }else{
-        console.log("you are: " + role)
-        req.session["User"] = {
-            'userName': name,
-            'role': role //admin hoặc customers
-        }
-        
-        res.redirect('logined')
-    }
 
-})
 router.get('/sorthightolow',(req,res)=>{
     res.render('logined')
 })
@@ -119,13 +68,42 @@ router.post('/sortlowtohigh', async (req, res) => {
 });
 
 
+router.get('/addTocart',(req,res)=>{
+    res.render('logined')
+})  
 
-
-router.get('/admin', async(req, res) => {
-    const dbo = await getDB();
-    const allProducts = await dbo.collection("books").find({}).toArray();
-    res.render('admin', { data: allProducts })
+router.post('/addTocart', (req, res) => {
+    //xem nguoi dung mua gi: Milk hay Coffee
+    const product = req.body.product
+    //lay bien cart trong session [co the chua co gia tri hoac co gia tri]
+    let cart = req.session["cart"]
+    //chua co gio hang trong session, day se la sp dau tien
+    if (!cart) {
+        let dict = {}
+        dict[product] = 1
+        req.session["cart"] = dict
+    } else {
+        const dict = req.session["cart"]
+        //co lay product trong dict
+        var oldProduct = dict[product]
+        //kiem tra xem product da co trong Dict
+        if (!oldProduct)
+            dict[product] = 1
+        else {
+            dict[product] = parseInt(oldProduct) + 1
+        }
+        req.session["cart"] = dict
+    }
+    //chuyen gia tri tu dict sang array
+    let spDaMua = []
+    //neu khach hang da mua it nhat 1 sp
+    const dict = req.session["cart"]
+    for (var key in dict) {
+        spDaMua.push({ tensp: key, soLuong: dict[key] })
+    }
+    res.redirect('logined')
 })
+
 
 router.get('/home', async(req, res) => {
     const dbo = await getDB();
