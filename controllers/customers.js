@@ -8,7 +8,7 @@ const router = express.Router()
 router.post('/search', async (req, res) => {
     const searchInput = req.body.txtSearch;
     const dbo = await getDB()
-    const allProducts = await dbo.collection("books").find({ name: searchInput }).toArray();
+    const allProducts = await dbo.collection("books").find({ name: {$regex: '.*' + searchInput + '.*'} }).toArray();
 
     res.render('logined', { data: allProducts })
 })
@@ -73,8 +73,9 @@ router.get('/addTocart',(req,res)=>{
 })  
 
 router.post('/addTocart', (req, res) => {
-    //xem nguoi dung mua gi: Milk hay Coffee
     const product = req.body.product
+    var totalQty =0;
+    var totalPrice = 0
     //lay bien cart trong session [co the chua co gia tri hoac co gia tri]
     let cart = req.session["cart"]
     //chua co gio hang trong session, day se la sp dau tien
