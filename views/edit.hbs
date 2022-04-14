@@ -15,43 +15,47 @@
 </head>
 
 <body>
-    <div class="heading">
-        <div class="heading__logo">
-           <a href="/index"><img src="./img/logo.png" alt="logo"></a>
+     <nav class="navbar navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/logined">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/FPT_logo_2010.svg/1200px-FPT_logo_2010.svg.png"
+                    alt="" width="30" height="24" class="d-inline-block align-text-top">
+                FPT Book Store
+                </a>
         </div>
-        <h2 class="heading__title">Edit Product</h2>
-    </div>
+    </nav>
+
     <div style="color:red">{{errorMsg}}</div>
 
-    <div class="grid wide">
-        <div class="row">          
-            <form class="l-6 l-o-3" action="/admin/edit" method="post">
-                <input type="hidden" name="txtId" value="{{books._id}}">
-                <div class="input-group">
-                    <span class="input-group-text" id="basic-addon1">Name</span>
-                    <input type="text" name="txtNamebook" value="{{books.name}}" class="form-control"
-                        placeholder="Product Name" aria-label="Name" aria-describedby="basic-addon1">
-
-                </div>
-                <div class="input-group">
-                    <span class="input-group-text" id="basic-addon1">Description</span>
-                    <input type="text" name="txtDes" value="{{books.description}}" class="form-control"
-                        placeholder="Product Name" aria-label="Name" aria-describedby="basic-addon1">
-
-                </div>
-                <div class="input-group">
-                    <input type="text" name="txtPrice" value="{{books.price}}" class="form-control" placeholder="Cost"
-                        aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text">$</span>
-                </div>
-                <div class="input-group ">
-                    <span class="input-group-text" id="basic-addon3">https://...</span>
-                    <input type="text" name="txtPicture" id="basic-url"
-                        aria-describedby="basic-addon3" placeholder="URL">
-                </div>
-                <input type="submit" class="btn btn-dark"  value="Update Prodcut">
-            </form>          
+<div class="container mt-4" >
+    <form action="/admin/edit" method="post">
+    <input type="hidden" name="txtId" value="{{books._id}}">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Name</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="txtNamebook" value="{{books.name}}"
+                onblur="checkname();">
+                <span id="erorr-name"></span>           
         </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Price</label>
+            <input type="number" class="form-control" id="exampleInputPassword1" name="txtPrice"  value="{{books.price}}"
+                onblur="checknumber();">
+                <span id="error-num"></span>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" >Description</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="txtDes" value="{{books.description}}">
+                <span id="erorr-name"></span>           
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Img</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="imgURL" placeholder="Enter URL">
+        </div>
+
+        <button type="submit" class="btn btn-primary" value="Update Prodcut">Submit</button>
+        </div>
+    </form>
+>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"

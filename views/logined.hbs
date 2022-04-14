@@ -23,22 +23,36 @@
                     alt="" width="30" height="24" class="d-inline-block align-text-top">
                 FPT Book Store
             </a>
+            <div class="nav-item">
 
+            </div>
+            <div class="nav-item">
+
+                <a class="navbar-brand" href="/customers/viewCart" target="blank">My Cart
+                    <img src="https://pngimg.com/uploads/shopping_cart/shopping_cart_PNG4.png" alt="" width="30"
+                        height="24" class="d-inline-block align-text-top">
+                </a>
+                <a href="/" class="navbar-brand">Log Out</a>
+            </div>
         </div>
     </nav>
     <div class="container">
+
         <form class="d-flex mt-4 mb-4" action="/customers/search" method="post">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="txtSearch">
-            <button class="btn btn-outline-success" type="submit" value="Search">Search</button>
+            <button class="btn btn-outline-secondary" type="submit" value="Search">Search</button>
         </form>
-        <form  action="/customers/sorthightolow" method="post">
-            <button class="btn btn-dark" type="submit" value="hightolow">High To Low</button>
-        </form>
-        <form action="/customers/sortlowtohigh" method="post">
-            <button class="btn btn-dark" type="submit" value="lowtohigh">Low To High</button>
-        </form>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <form action="/customers/sorthightolow" method="post">
+                <button class="btn btn-dark me-2" type="submit" value="hightolow">High To Low</button>
+            </form>
+            <form action="/customers/sortlowtohigh" method="post">
+                <button class="btn btn-dark" type="submit" value="lowtohigh">Low To High</button>
+            </form>
+        </div>
+
         <div class="mt-4">
-            <a href="/customers/viewCart" target="blank">View Cart</a>
+
             <div class="row g-2">
                 {{#each data}}
                 <div class="col-sm-6 col-lg-3">
@@ -47,9 +61,9 @@
                         <div class="card-body">
                             <h5 class="card-title">{{name}}</h5>
                             <p class="card-text">{{description}}</p>
-                            <a href="#" class="btn btn-primary">{{price}}
+                            <p class="card-text">{{price}} $
 
-                            </a>
+                            </p>
                             <form action="/customers/addTocart" method="post" onsubmit="return confirmBuy('coffee')">
                                 <input type="hidden" name="product" value='{{name}}'>
                                 <button type="submit" class="btn btn-primary button" id="button"
@@ -62,6 +76,12 @@
                 {{/each}}
             </div>
         </div>
+    </div>
+
+    <div class="footer bg-dark">
+        <div class="container mt-4"></div>
+        <img src="https://img5.thuthuatphanmem.vn/uploads/2022/01/16/logo-fpt-university_043151936.png" alt="">
+    </div>
     </div>
 
 

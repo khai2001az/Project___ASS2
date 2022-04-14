@@ -42,3 +42,9 @@ input {
 .close:hover{
     color: #666;
 }
+.body{
+	position: relative;
+}
+.header-fixed{
+	position: fixed;
+}

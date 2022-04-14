@@ -31,6 +31,13 @@ async function updateProduct(id, nameInput,desImput, priceInput, pictureInput) {
     await dbo.collection("books").updateOne(filter, newValue);
 }
 
+async function search(condition, collectionName) {
+    const dbo = await getDB();
+    //const searchCondition = new RegExp(condition, 'i')
+    var results = await dbo.collection(collectionName).
+    find(condition).toArray();
+    return results;
+}
 
 
 async function getProductById(id) {
@@ -57,7 +64,10 @@ async function checkUserRole(nameI,passI){
         return user.role;
     }
 }
+const USERTABLE = 'Users';
+const BOOK_TABLE = 'books';
+const ORDER_TABLE = 'Order';
+const ORDERDETAIL_TABLE = 'OrderDetail';
 
 
-
-module.exports = {insertUser,checkUserRole, insertBook, getDB, updateProduct, deleteProduct, getProductById}
+module.exports = {insertUser,checkUserRole, insertBook, getDB, updateProduct, deleteProduct, getProductById,search, USERTABLE, BOOK_TABLE, ORDER_TABLE, ORDERDETAIL_TABLE}
